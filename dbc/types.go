@@ -25,7 +25,7 @@ type HTTPHeader struct {
 
 const (
 	// Blockchain is Ethereum.
-	Blockchain string = "Ethereum"
+	Blockchain string = "DBC Mainnet"
 
 	// MainnetNetwork is the value of the network
 	// in MainnetNetworkIdentifier.
