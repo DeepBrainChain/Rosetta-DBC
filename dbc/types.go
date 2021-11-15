@@ -24,6 +24,48 @@ type HTTPHeader struct {
 }
 
 const (
+	// Blockchain is Ethereum.
+	Blockchain string = "Ethereum"
+
+	// MainnetNetwork is the value of the network
+	// in MainnetNetworkIdentifier.
+	MainnetNetwork string = "Mainnet"
+
+	// // RopstenNetwork is the value of the network
+	// // in RopstenNetworkIdentifier.
+	// RopstenNetwork string = "Ropsten"
+
+	// // RinkebyNetwork is the value of the network
+	// // in RinkebyNetworkNetworkIdentifier.
+	// RinkebyNetwork string = "Rinkeby"
+
+	// // GoerliNetwork is the value of the network
+	// // in GoerliNetworkNetworkIdentifier.
+	// GoerliNetwork string = "Goerli"
+
+	// UnclesRewardMultiplier is the uncle reward
+	// multiplier.
+	UnclesRewardMultiplier = 32
+
+	// MaxUncleDepth is the maximum depth for
+	// an uncle to be rewarded.
+	MaxUncleDepth = 8
+
+	// GenesisBlockIndex is the index of the
+	// genesis block.
+	GenesisBlockIndex = int64(0)
+
+	// TODO: change here
+	// TransferGasLimit is the gas limit
+	// of a transfer.
+	TransferGasLimit = int64(21000) //nolint:gomnd
+
+	// TODO: change here
+	// MainnetGethArguments are the arguments to start a mainnet geth instance.
+	MainnetArguments = `--config=/app/ethereum/geth.toml --gcmode=archive --graphql`
+)
+
+const (
 	// NodeVersion is the version of geth we are using.
 	NodeVersion = "264"
 
@@ -86,9 +128,21 @@ const (
 
 	// IncludeMempoolCoins does not apply to rosetta-ethereum as it is not UTXO-based.
 	IncludeMempoolCoins = false
+
+	// MainnetGenesisHash = rpc.types.NewHash(MustHexDecodeString("0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b"))
+
+	MainnetGenesisHash = "0xd523fa2e0581f069b4f0c7b5944c21e9abc72305a08067868c91b898d1bf1dff"
 )
 
 var (
+	// MainnetGenesisBlockIdentifier is the *types.BlockIdentifier
+	// of the mainnet genesis block.
+	MainnetGenesisBlockIdentifier = &types.BlockIdentifier{
+		Hash:  MainnetGenesisHash,
+		Index: GenesisBlockIndex,
+	}
+
+	MainnetChainConfig = ""
 
 	// Currency is the *types.Currency for all
 	// Ethereum networks.

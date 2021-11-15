@@ -76,7 +76,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	g, ctx := errgroup.WithContext(ctx)
 
 	var api *dbc.API
-	api, err = dbc.NewClient(cfg.GethURL)
+	api, err = dbc.NewClient(cfg.DBCURL)
 	if err != nil {
 		return fmt.Errorf("%w: cannot initialize dbc client", err)
 	}
