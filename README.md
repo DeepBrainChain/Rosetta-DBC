@@ -11,5 +11,3 @@ https://github.com/coinbase/rosetta-sdk-go.git
 https://github.com/docknetwork/rosetta-api.git
 
 https://github.com/coinbase/rosetta-ethereum.git
-
-https://github.com/docknetwork/rosetta-api.git
