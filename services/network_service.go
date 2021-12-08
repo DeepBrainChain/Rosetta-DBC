@@ -61,6 +61,10 @@ func (s *NetworkAPIService) NetworkStatus(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkStatusResponse, *types.Error) {
+	if s.config.Mode != configuration.Online {
+		return nil, ErrGethNotReady
+	}
+
 	currentBlock, currentTime, syncStatus, peers, err := s.client.Status(ctx)
 	if err != nil {
 		return nil, wrapErr(ErrGeth, err)
