@@ -3,7 +3,7 @@
 coinbase rosetta dbc
 
 ```sh
-MODE=ONLINE NETWORK=MAINNET PORT="1234" ./rosetta-dbc run
+MODE=ONLINE NETWORK=MAINNET PORT="8080" ./rosetta-dbc run
 ```
 
 > Related repos:

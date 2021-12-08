@@ -25,23 +25,16 @@ type HTTPHeader struct {
 
 const (
 	// Blockchain is Ethereum.
-	Blockchain string = "DBC Mainnet"
+	Blockchain string = "Substrate"
 
 	// MainnetNetwork is the value of the network
 	// in MainnetNetworkIdentifier.
-	MainnetNetwork string = "Mainnet"
+	MainnetNetwork string = "DBC Mainnet"
 
-	// // RopstenNetwork is the value of the network
-	// // in RopstenNetworkIdentifier.
-	// RopstenNetwork string = "Ropsten"
-
-	// // RinkebyNetwork is the value of the network
-	// // in RinkebyNetworkNetworkIdentifier.
-	// RinkebyNetwork string = "Rinkeby"
-
-	// // GoerliNetwork is the value of the network
-	// // in GoerliNetworkNetworkIdentifier.
-	// GoerliNetwork string = "Goerli"
+	// TODO: 增加这个Identifier
+	// TestnetNetwork is the value of the network
+	// in TestnetNetworkIdentifier
+	TestnetNetwork string = "DBC Testnet"
 
 	// UnclesRewardMultiplier is the uncle reward
 	// multiplier.
@@ -62,7 +55,8 @@ const (
 
 	// TODO: change here
 	// MainnetGethArguments are the arguments to start a mainnet geth instance.
-	MainnetArguments = `--config=/app/ethereum/geth.toml --gcmode=archive --graphql`
+	MainnetArguments = ``
+	TestnetArguments = ``
 )
 
 const (
@@ -132,6 +126,8 @@ const (
 	// MainnetGenesisHash = rpc.types.NewHash(MustHexDecodeString("0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b"))
 
 	MainnetGenesisHash = "0xd523fa2e0581f069b4f0c7b5944c21e9abc72305a08067868c91b898d1bf1dff"
+
+	TestnetGenesisHash = "0xe57c5ceeba24c5c5e525db2bcad3c661a53cd345aeaa8a2fbc66347ced360027"
 )
 
 var (
@@ -142,7 +138,13 @@ var (
 		Index: GenesisBlockIndex,
 	}
 
+	TestnetGenesisBlockIdentifier = &types.BlockIdentifier{
+		Hash:  TestnetGenesisHash,
+		Index: GenesisBlockIndex,
+	}
+
 	MainnetChainConfig = ""
+	TestnetChainConfig = ""
 
 	// Currency is the *types.Currency for all
 	// Ethereum networks.

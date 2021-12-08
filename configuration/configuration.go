@@ -24,19 +24,10 @@ const (
 	// to make outbound connections.
 	Offline Mode = "OFFLINE"
 
-	// Mainnet is the Ethereum Mainnet.
+	// Mainnet is the DBC Mainnet.
 	Mainnet string = "MAINNET"
 
-	// Ropsten is the Ethereum Ropsten testnet.
-	Ropsten string = "ROPSTEN"
-
-	// Rinkeby is the Ethereum Rinkeby testnet.
-	Rinkeby string = "RINKEBY"
-
-	// Goerli is the Ethereum Görli testnet.
-	Goerli string = "GOERLI"
-
-	// Testnet defaults to `Ropsten` for backwards compatibility.
+	// Testnet defaults to `DBC Testnet` for backwards compatibility.
 	Testnet string = "TESTNET"
 
 	// DataDirectory is the default location for all
@@ -65,8 +56,8 @@ const (
 	// DefaultGethURL is the default URL for
 	// a running geth node. This is used
 	// when GethEnv is not populated.
-	// DefaultDBCURL = "http://localhost:8545"
-	DefaultDBCURL = "wss://info.dbcwallet.io"
+	DefaultDBCURL = "ws://localhost:9944"
+	// DefaultDBCURL = "wss://info.dbcwallet.io"
 
 	// SkipGethAdminEnv is an optional environment variable
 	// to skip geth `admin` calls which are typically not supported
@@ -118,6 +109,14 @@ func LoadConfiguration() (*Configuration, error) {
 		config.GenesisBlockIdentifier = dbc.MainnetGenesisBlockIdentifier
 		config.Params = dbc.MainnetChainConfig
 		config.GethArguments = dbc.MainnetArguments
+	case Testnet:
+		config.Network = &types.NetworkIdentifier{
+			Blockchain: dbc.Blockchain,
+			Network:    dbc.TestnetNetwork,
+		}
+		config.GenesisBlockIdentifier = dbc.TestnetGenesisBlockIdentifier
+		config.Params = dbc.TestnetChainConfig
+		config.GethArguments = dbc.TestnetArguments
 	case "":
 		return nil, errors.New("NETWORK must be populated")
 	default:

@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/spf13/cobra"
 	"rosetta-dbc/configuration"
 	"rosetta-dbc/dbc"
 	"rosetta-dbc/services"
+
+	"github.com/spf13/cobra"
 
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -55,8 +56,13 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 		dbc.HistoricalBalanceSupported,
 		[]*types.NetworkIdentifier{
 			{
-				Blockchain:           "DBC",
+				Blockchain:           "Substrate",
 				Network:              "dbc_mainnet",
+				SubNetworkIdentifier: nil,
+			},
+			{
+				Blockchain:           "Substrate",
+				Network:              "dbc_testnet",
 				SubNetworkIdentifier: nil,
 			},
 		},
