@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -91,7 +93,8 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	router := services.NewBlockchainRouter(cfg, api, asserter)
 
 	loggedRouter := server.LoggerMiddleware(router)
-	corsRouter := server.CorsMiddleware(loggedRouter)
+	loggedRouter2 := LoggerMiddleware2(loggedRouter)
+	corsRouter := server.CorsMiddleware(loggedRouter2)
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.Port),
 		Handler:      corsRouter,
@@ -120,4 +123,22 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	}
 
 	return err
+}
+
+// LoggerMiddleware is a simple logger middleware that prints the requests in
+// an ad-hoc fashion to the stdlib's log.
+func LoggerMiddleware2(inner http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body := readBody(r)
+		inner.ServeHTTP(w, r)
+		log.Printf("Got post body: %s", body)
+	})
+}
+
+func readBody(req *http.Request) string {
+	bodyBytes, _ := ioutil.ReadAll(req.Body)
+	// Restore the io.ReadCloser to its original state
+	req.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	// Use the content
+	return string(bodyBytes)
 }

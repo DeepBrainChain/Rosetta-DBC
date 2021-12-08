@@ -21,13 +21,13 @@ var (
 	SignalReceived = false
 )
 
-func Execute() error {
-	return rootCmd.Execute()
-}
-
 func init() {
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(utilsBootstrapCmd)
+}
+
+func Execute() error {
+	return rootCmd.Execute()
 }
 
 // handleSignals handles OS signals so we can ensure we close database
