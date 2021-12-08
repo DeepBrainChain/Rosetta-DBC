@@ -81,6 +81,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("%w: cannot initialize dbc client", err)
 	}
 
+	// 注册router
 	router := services.NewBlockchainRouter(cfg, api, asserter)
 
 	loggedRouter := server.LoggerMiddleware(router)

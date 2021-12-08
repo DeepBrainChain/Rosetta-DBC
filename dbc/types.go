@@ -178,5 +178,11 @@ var (
 		},
 	}
 
-	CallMethods = []string{}
+	// CallMethods are all supported call methods.
+	CallMethods = []string{
+		"dbc_getBlockByNumber",
+		"dbc_getTransactionReceipt",
+		"dbc_call",
+		"dbc_estimateGas", // TODO: change here
+	}
 )

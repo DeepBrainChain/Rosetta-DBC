@@ -1,1 +1,0 @@
-MODE=ONLINE NETWORK=MAINNET PORT="1234" ./rosetta-dbc run

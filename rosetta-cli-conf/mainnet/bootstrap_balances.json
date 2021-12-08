@@ -1,0 +1,102 @@
+[
+  {
+    "account_identifier": {
+      "address": "5DMESR6Zr58qvqtoFEritA8kDULLgCw5XRapffgUvSYSdfJN"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5HEeqb1BG4MbEqgjWhEADcachLFxyymX6kCRefA2ou5CJETy"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "99000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5Dq2mjgaM9eSUmMZGu3ArYjLj7DUyr5irZ19rLgYqvVqeGsx"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "99000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5DG4KYvuvfgUYt4b2CfVRNprZpFDW3jkELUnKZgYzt5xmrvx"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "99000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5FEmxL86rj2av2X1p7bVvLWZx7CSdFDUmhmWMF1EjUeoB9wg"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "99000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5G4Tx92gWuzdfWRqhX5UyywmPn4Zj1VR4mJARmywo2cD2KkU"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5C7b7JJ8ToxZ39ojte6aR3mqDx1mdnRDZsPNejikK74WUH8c"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5FqT1E1yupuYLt8LTnumtzayJmsdUTTNWatPTJfToXCdBQyo"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5CHt45iYxdUa8sfZsvdPmRFqdyXwkde3J11Pc3Xy2zNtumLe"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  },
+  {
+    "account_identifier": {
+      "address": "5F1CAeYk9bSVQPPhtKUgMWWMuEKLDemLPX7GpkAtw8yAtLdS"
+    },
+    "currency": {
+      "symbol": "DBC",
+      "decimals": 15
+    },
+    "value": "100000000000000000"
+  }
+]
