@@ -58,5 +58,4 @@ func NewBlockchainRouter(
 		mempoolAPIController,
 		callAPIController,
 	)
-
 }

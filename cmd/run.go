@@ -59,12 +59,12 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 		[]*types.NetworkIdentifier{
 			{
 				Blockchain:           "Substrate",
-				Network:              "dbc_mainnet",
+				Network:              "DBC Mainnet",
 				SubNetworkIdentifier: nil,
 			},
 			{
 				Blockchain:           "Substrate",
-				Network:              "dbc_testnet",
+				Network:              "DBC Testnet",
 				SubNetworkIdentifier: nil,
 			},
 		},

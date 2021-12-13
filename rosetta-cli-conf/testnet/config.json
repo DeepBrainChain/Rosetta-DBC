@@ -1,7 +1,7 @@
 {
   "network": {
-    "blockchain": "substrate",
-    "network": "DBC testnet"
+    "blockchain": "Substrate",
+    "network": "DBC Testnet"
   },
   "online_url": "http://localhost:8080",
   "data_directory": "dbctestnet-cli-data",
