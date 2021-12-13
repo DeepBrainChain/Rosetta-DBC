@@ -2,6 +2,7 @@ package dbc
 
 import (
 	"context"
+	"fmt"
 	"math/big"
 	"time"
 
@@ -55,18 +56,13 @@ func (ec *API) Status(ctx context.Context) (
 		return nil, -1, nil, nil, err
 	}
 
-	var res string
-	err = ec.Client.Call(&res, "chain_getBlockHash")
+	// FIXME: use current block timestamp
+	var moment gsTypes.Moment
+	err = ec.Client.Call(&moment, "timestamp_now")
 	if err != nil {
+		fmt.Println("########## Err: ", err)
 		return nil, -1, nil, nil, err
 	}
-
-	// FIXME: use current block timestamp
-	// var moment gsTypes.Moment
-	// err = ec.Client.Call(&moment, "timestamp_now")
-	// if err != nil {
-	// 	return nil, -1, nil, nil, err
-	// }
 
 	peers := []*RosettaTypes.Peer{}
 
@@ -82,6 +78,10 @@ func (ec *API) Status(ctx context.Context) (
 	}
 
 	syncStatus := &RosettaTypes.SyncStatus{
+		// TODO: add this
+		// CurrentIndex *int64 `json:"current_index,omitempty"`
+		// 	TargetIndex *int64 `json:"target_index,omitempty"`
+		// 	Stage *string `json:"stage,omitempty"`
 		Synced: &health.IsSyncing,
 	}
 
@@ -101,6 +101,33 @@ func (ec *API) Balance(
 	account *RosettaTypes.AccountIdentifier,
 	block *RosettaTypes.PartialBlockIdentifier,
 ) (*RosettaTypes.AccountBalanceResponse, error) {
+	meta, err := ec.RPC.State.GetMetadataLatest()
+	if err != nil {
+		return nil, err
+	}
+	// TODO: Address to public key
+	key, err := gsTypes.CreateStorageKey(meta, "System", "Account", []byte(account.Address))
+	if err != nil {
+		return nil, err
+	}
+	var accountInfo gsTypes.AccountInfo
+	ok, err := ec.RPC.State.GetStorageLatest(key, &accountInfo)
+	if err != nil || !ok {
+		return nil, err
+	}
+
+	// return &RosettaTypes.AccountBalanceResponse{
+	// 	BlockIdentifier: *RosettaTypes.BlockIdentifier{
+	// 		Index: 0,
+	// 		Hash:  "",
+	// 	},
+	// 	Balances: []*RosettaTypes.Amount{
+	// 		Value:    accountInfo.Data.Free,
+	// 		Currency: "DBC",
+	// 		Metadata: "",
+	// 	},
+	// 	Metadate: nil,
+	// }, nil
 	return nil, nil
 }
 
@@ -108,7 +135,22 @@ func (ec *API) Block(
 	ctx context.Context,
 	blockIdentifier *RosettaTypes.PartialBlockIdentifier,
 ) (*RosettaTypes.Block, error) {
-	return nil, nil
+	// blockHash, err := ec.RPC.Chain.GetBlockHash(uint64(*blockIdentifier.Index))
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// block, err := ec.RPC.Chain.GetBlock(blockHash)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	return &RosettaTypes.Block{
+		BlockIdentifier:       &RosettaTypes.BlockIdentifier{},
+		ParentBlockIdentifier: &RosettaTypes.BlockIdentifier{},
+		Timestamp:             0,                             // TODO:
+		Transactions:          []*RosettaTypes.Transaction{}, // TODO:
+		Metadata:              nil,                           // TODO:
+	}, nil
 }
 
 func (ec *API) Call(
