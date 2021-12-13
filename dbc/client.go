@@ -51,15 +51,37 @@ func (ec *API) Status(ctx context.Context) (
 	}
 
 	health, err := ec.RPC.System.Health()
+	if err != nil {
+		return nil, -1, nil, nil, err
+	}
 
-	// peers, _ := ec.RPC.System.Peers()
-	// Dont need any peers for now, format response
+	var res string
+	err = ec.Client.Call(&res, "chain_getBlockHash")
+	if err != nil {
+		return nil, -1, nil, nil, err
+	}
+
+	// FIXME: use current block timestamp
+	// var moment gsTypes.Moment
+	// err = ec.Client.Call(&moment, "timestamp_now")
+	// if err != nil {
+	// 	return nil, -1, nil, nil, err
+	// }
+
 	peers := []*RosettaTypes.Peer{}
 
+	allPeer, err := ec.RPC.System.Peers()
+	if err != nil {
+		return nil, -1, nil, nil, err
+	}
+	for i := 0; i < len(allPeer); i++ {
+		peers = append(peers, &RosettaTypes.Peer{
+			PeerID:   string(allPeer[i].PeerID),
+			Metadata: map[string]interface{}{},
+		})
+	}
+
 	syncStatus := &RosettaTypes.SyncStatus{
-		// CurrentIndex *int64 `json:"current_index,omitempty"`
-		// 	TargetIndex *int64 `json:"target_index,omitempty"`
-		// 	Stage *string `json:"stage,omitempty"`
 		Synced: &health.IsSyncing,
 	}
 
@@ -67,7 +89,7 @@ func (ec *API) Status(ctx context.Context) (
 			Hash:  blockHash.Hex(),
 			Index: int64(block.Block.Header.Number),
 		},
-		1, // convertTime(header.Time),
+		1639381145000, // moment.Unix(), // convertTime(header.Time),
 		syncStatus,
 		peers,
 		nil
