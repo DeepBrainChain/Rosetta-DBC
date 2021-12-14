@@ -55,9 +55,7 @@ func (ec *API) Status(ctx context.Context) (
 		return nil, -1, nil, nil, err
 	}
 
-	// FIXME: use current block timestamp
-	var moment gsTypes.Moment
-	err = ec.Client.Call(&moment, "timestamp_now")
+	timestamp, err := ec.getBlockTimestamp(uint64(block.Block.Header.Number))
 	if err != nil {
 		return nil, -1, nil, nil, err
 	}
@@ -87,7 +85,7 @@ func (ec *API) Status(ctx context.Context) (
 			Hash:  blockHash.Hex(),
 			Index: int64(block.Block.Header.Number),
 		},
-		1639381145000, // moment.Unix(), // convertTime(header.Time),
+		timestamp,
 		syncStatus,
 		peers,
 		nil
@@ -116,8 +114,32 @@ func (ec *API) latestMeta() (*gsTypes.Metadata, error) {
 	return meta, err
 }
 
-// TODO
-func (ec *API) getBlockTimestamp() {}
+func (ec *API) getBlockTimestamp(blockHeight uint64) (int64, error) {
+	meta, err := ec.latestMeta()
+	if err != nil {
+		return 0, err
+	}
+
+	key, err := gsTypes.CreateStorageKey(meta, "Timestamp", "Now")
+
+	blockHash, err := ec.RPC.Chain.GetBlockHash(blockHeight)
+	if err != nil {
+		return 0, err
+	}
+
+	var timestamp gsTypes.Moment
+	ok, err := ec.RPC.State.GetStorage(key, &timestamp, blockHash)
+	if err != nil || !ok {
+		return 0, err
+	}
+
+	return timestamp.UnixMilli(), nil
+}
+
+// TODO: add get block transaction
+func (ec *API) getBlockTransactions() ([]*RosettaTypes.Transaction, error) {
+	return nil, nil
+}
 
 func (ec *API) Balance(
 	ctx context.Context,
@@ -176,13 +198,18 @@ func (ec *API) Block(
 		}
 	}
 
+	timestamp, err := ec.getBlockTimestamp(uint64(*blockIdentifier.Index))
+	if err != nil {
+		return nil, err
+	}
+
 	return &RosettaTypes.Block{
 		BlockIdentifier: &RosettaTypes.BlockIdentifier{
 			Index: *blockIdentifier.Index,
 			Hash:  *blockIdentifier.Hash,
 		},
 		ParentBlockIdentifier: parentBlockIdentifier,
-		Timestamp:             0,                             // TODO:
+		Timestamp:             timestamp,
 		Transactions:          []*RosettaTypes.Transaction{}, // TODO:
 		Metadata:              nil,                           // TODO:
 	}, nil
@@ -195,6 +222,7 @@ func (ec *API) Call(
 	// 1. if is query, return query result
 
 	// 2. if is extrinsic, sign and submit
+	// ec.RPC.Author.SubmitExtrinsic(xt gsTypes.Extrinsic)
 
 	return nil, nil
 }
