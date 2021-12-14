@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
 	"rosetta-dbc/configuration"
 	"rosetta-dbc/dbc"
+
+	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
 // BlockAPIService implements the server.BlockAPIServicer interface.

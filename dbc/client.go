@@ -184,7 +184,8 @@ func (ec *API) Block(
 	blockIdentifier *RosettaTypes.PartialBlockIdentifier,
 ) (*RosettaTypes.Block, error) {
 	var parentBlockIdentifier *RosettaTypes.BlockIdentifier
-	if *blockIdentifier.Index == 1 {
+
+	if *blockIdentifier.Index == 0 {
 		parentBlockIdentifier = MainnetGenesisBlockIdentifier
 	} else {
 		parentBlockHash, err := ec.RPC.Chain.GetBlockHash(uint64(*blockIdentifier.Index) - 1)
@@ -198,6 +199,11 @@ func (ec *API) Block(
 		}
 	}
 
+	blockHash, err := ec.RPC.Chain.GetBlockHash(uint64(*blockIdentifier.Index))
+	if err != nil {
+		return nil, err
+	}
+
 	timestamp, err := ec.getBlockTimestamp(uint64(*blockIdentifier.Index))
 	if err != nil {
 		return nil, err
@@ -206,7 +212,7 @@ func (ec *API) Block(
 	return &RosettaTypes.Block{
 		BlockIdentifier: &RosettaTypes.BlockIdentifier{
 			Index: *blockIdentifier.Index,
-			Hash:  *blockIdentifier.Hash,
+			Hash:  blockHash.Hex(),
 		},
 		ParentBlockIdentifier: parentBlockIdentifier,
 		Timestamp:             timestamp,
