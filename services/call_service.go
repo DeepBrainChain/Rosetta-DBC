@@ -39,7 +39,7 @@ func (s *CallAPIService) Call(
 		return nil, wrapErr(ErrCallMethodInvalid, err)
 	}
 	if err != nil {
-		return nil, wrapErr(ErrGeth, err)
+		return nil, wrapErr(ErrDBC, err)
 	}
 
 	return response, nil

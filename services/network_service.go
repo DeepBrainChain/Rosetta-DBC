@@ -62,16 +62,16 @@ func (s *NetworkAPIService) NetworkStatus(
 	request *types.NetworkRequest,
 ) (*types.NetworkStatusResponse, *types.Error) {
 	if s.config.Mode != configuration.Online {
-		return nil, ErrGethNotReady
+		return nil, ErrDBCNotReady
 	}
 
 	currentBlock, currentTime, syncStatus, peers, err := s.client.Status(ctx)
 	if err != nil {
-		return nil, wrapErr(ErrGeth, err)
+		return nil, wrapErr(ErrDBC, err)
 	}
 
 	if currentTime < asserter.MinUnixEpoch {
-		return nil, ErrGethNotReady
+		return nil, ErrDBCNotReady
 	}
 
 	return &types.NetworkStatusResponse{

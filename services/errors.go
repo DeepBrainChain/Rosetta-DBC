@@ -10,7 +10,7 @@ var (
 	Errors = []*types.Error{
 		ErrUnimplemented,
 		ErrUnavailableOffline,
-		ErrGeth,
+		ErrDBC,
 		ErrUnableToDecompressPubkey,
 		ErrUnclearIntent,
 		ErrUnableToParseIntermediateResult,
@@ -21,7 +21,7 @@ var (
 		ErrCallMethodInvalid,
 		ErrBlockOrphaned,
 		ErrInvalidAddress,
-		ErrGethNotReady,
+		ErrDBCNotReady,
 	}
 
 	// ErrUnimplemented is returned when an endpoint
@@ -38,11 +38,10 @@ var (
 		Message: "Endpoint unavailable offline",
 	}
 
-	// ErrGeth is returned when geth
-	// errors on a request.
-	ErrGeth = &types.Error{
+	// ErrDBC is returned when dbc-chain errors on a request.
+	ErrDBC = &types.Error{
 		Code:    2, //nolint
-		Message: "geth error",
+		Message: "dbc error",
 	}
 
 	// ErrUnableToDecompressPubkey is returned when
@@ -123,11 +122,11 @@ var (
 		Message: "Invalid address",
 	}
 
-	// ErrGethNotReady is returned when geth
+	// ErrDBCNotReady is returned when dbc-chain
 	// cannot yet serve any queries.
-	ErrGethNotReady = &types.Error{
+	ErrDBCNotReady = &types.Error{
 		Code:      13, //nolint
-		Message:   "geth not ready",
+		Message:   "dbc not ready",
 		Retriable: true,
 	}
 )
