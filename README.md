@@ -3,7 +3,13 @@
 coinbase rosetta dbc
 
 ```sh
+# Testcase
+go build && MODE=ONLINE NETWORK=TESTNET PORT="8080" ./rosetta-dbc run
+rosetta-cli --configuration-file=testnet/config.json check:data
+
+# Mainnet
 MODE=ONLINE NETWORK=MAINNET PORT="8080" ./rosetta-dbc run
+rosetta-cli --configuration-file=mainnet/config.json check:data
 ```
 
 > Related repos:

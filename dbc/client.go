@@ -8,6 +8,10 @@ import (
 	gsrpc "github.com/centrifuge/go-substrate-rpc-client/v3"
 	gsTypes "github.com/centrifuge/go-substrate-rpc-client/v3/types"
 	RosettaTypes "github.com/coinbase/rosetta-sdk-go/types"
+
+	// "github.com/vedhavyas/go-subkey"
+	// "github.com/vedhavyas/go-subkey/sr25519"
+	subscanSS58 "github.com/itering/subscan/util/ss58"
 )
 
 const (
@@ -92,6 +96,11 @@ func (ec *API) Status(ctx context.Context) (
 
 }
 
+func ss58ToPubkey(ss58Addr string) ([]byte, error) {
+	pubkey := subscanSS58.Decode(ss58Addr, 42)
+	return gsTypes.HexDecodeString(pubkey)
+}
+
 func (ec *API) latestBlockIdentifier() (*RosettaTypes.BlockIdentifier, error) {
 	block, err := ec.RPC.Chain.GetBlockLatest()
 	if err != nil {
@@ -151,11 +160,16 @@ func (ec *API) Balance(
 		return nil, err
 	}
 
-	// TODO: Address to public key
-	key, err := gsTypes.CreateStorageKey(meta, "System", "Account", []byte(account.Address))
+	pubkey, err := ss58ToPubkey(account.Address)
 	if err != nil {
 		return nil, err
 	}
+
+	key, err := gsTypes.CreateStorageKey(meta, "System", "Account", pubkey)
+	if err != nil {
+		return nil, err
+	}
+
 	var accountInfo gsTypes.AccountInfo
 	ok, err := ec.RPC.State.GetStorageLatest(key, &accountInfo)
 	if err != nil || !ok {

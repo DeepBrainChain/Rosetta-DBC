@@ -1,102 +1,82 @@
 [
   {
     "account_identifier": {
-      "address": "5DMESR6Zr58qvqtoFEritA8kDULLgCw5XRapffgUvSYSdfJN"
+      "address": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "100000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5HEeqb1BG4MbEqgjWhEADcachLFxyymX6kCRefA2ou5CJETy"
+      "address": "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "99000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5Dq2mjgaM9eSUmMZGu3ArYjLj7DUyr5irZ19rLgYqvVqeGsx"
+      "address": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "99000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5DG4KYvuvfgUYt4b2CfVRNprZpFDW3jkELUnKZgYzt5xmrvx"
+      "address": "5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "99000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5FEmxL86rj2av2X1p7bVvLWZx7CSdFDUmhmWMF1EjUeoB9wg"
+      "address": "5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "99000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5G4Tx92gWuzdfWRqhX5UyywmPn4Zj1VR4mJARmywo2cD2KkU"
+      "address": "5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "100000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5C7b7JJ8ToxZ39ojte6aR3mqDx1mdnRDZsPNejikK74WUH8c"
+      "address": "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "100000000000000000"
+    "value": "100000000000000000000"
   },
   {
     "account_identifier": {
-      "address": "5FqT1E1yupuYLt8LTnumtzayJmsdUTTNWatPTJfToXCdBQyo"
+      "address": "5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL"
     },
     "currency": {
       "symbol": "DBC",
       "decimals": 15
     },
-    "value": "100000000000000000"
-  },
-  {
-    "account_identifier": {
-      "address": "5CHt45iYxdUa8sfZsvdPmRFqdyXwkde3J11Pc3Xy2zNtumLe"
-    },
-    "currency": {
-      "symbol": "DBC",
-      "decimals": 15
-    },
-    "value": "100000000000000000"
-  },
-  {
-    "account_identifier": {
-      "address": "5F1CAeYk9bSVQPPhtKUgMWWMuEKLDemLPX7GpkAtw8yAtLdS"
-    },
-    "currency": {
-      "symbol": "DBC",
-      "decimals": 15
-    },
-    "value": "100000000000000000"
+    "value": "100000000000000000000"
   }
 ]
