@@ -22,5 +22,8 @@
         "from_tip": true
       }
     }
+  },
+  "construction": {
+    "constructor_dsl_file": "substrate.ros"
   }
 }
