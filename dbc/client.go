@@ -2,6 +2,7 @@ package dbc
 
 import (
 	"context"
+	"fmt"
 	"math/big"
 	"time"
 
@@ -119,8 +120,11 @@ func (ec *API) latestBlockIdentifier() (*RosettaTypes.BlockIdentifier, error) {
 }
 
 func (ec *API) latestMeta() (*gsTypes.Metadata, error) {
-	meta, err := ec.RPC.State.GetMetadataLatest()
-	return meta, err
+	return ec.RPC.State.GetMetadataLatest()
+}
+
+func (ec *API) metaAt(blockHash gsTypes.Hash) (*gsTypes.Metadata, error) {
+	return ec.RPC.State.GetMetadata(blockHash)
 }
 
 func (ec *API) getBlockTimestamp(blockHeight uint64) (int64, error) {
@@ -146,7 +150,18 @@ func (ec *API) getBlockTimestamp(blockHeight uint64) (int64, error) {
 }
 
 // TODO: add get block transaction
-func (ec *API) getBlockTransactions() ([]*RosettaTypes.Transaction, error) {
+func (ec *API) getBlockTransactions(blockHash gsTypes.Hash) ([]*RosettaTypes.Transaction, error) {
+
+	block, err := ec.RPC.Chain.GetBlock(blockHash)
+	if err != nil {
+		return nil, err
+	}
+	extrinsics := block.Block.Extrinsics
+	fmt.Printf("Total extrinsics: %v\n", len(block.Block.Extrinsics))
+	if len(block.Block.Extrinsics) > 0 {
+		fmt.Printf("%v\n", extrinsics)
+	}
+
 	return nil, nil
 }
 
@@ -155,7 +170,33 @@ func (ec *API) Balance(
 	account *RosettaTypes.AccountIdentifier,
 	block *RosettaTypes.PartialBlockIdentifier,
 ) (*RosettaTypes.AccountBalanceResponse, error) {
-	meta, err := ec.latestMeta()
+	var blockHash gsTypes.Hash
+	var err error
+
+	if block.Hash == nil {
+		// 根据block.Index 获取 block.Hash
+		blockHash, err = ec.RPC.Chain.GetBlockHash(uint64(*block.Index))
+		if err != nil {
+			return nil, err
+		}
+		var blockHashString = blockHash.Hex()
+		block.Hash = &blockHashString
+	} else {
+		// 根据 block.Hash 获取 block.Index
+		blockHash, err = gsTypes.NewHashFromHexString(*block.Hash)
+		if err != nil {
+			return nil, err
+		}
+
+		// 查询index
+		aBlock, err := ec.RPC.Chain.GetBlock(blockHash)
+		if err != nil {
+			return nil, err
+		}
+		*block.Index = int64(aBlock.Block.Header.Number)
+	}
+
+	meta, err := ec.metaAt(blockHash)
 	if err != nil {
 		return nil, err
 	}
@@ -171,18 +212,16 @@ func (ec *API) Balance(
 	}
 
 	var accountInfo gsTypes.AccountInfo
-	ok, err := ec.RPC.State.GetStorageLatest(key, &accountInfo)
+	ok, err := ec.RPC.State.GetStorage(key, &accountInfo, blockHash)
 	if err != nil || !ok {
 		return nil, err
 	}
 
-	blockIdentifier, err := ec.latestBlockIdentifier()
-	if err != nil {
-		return nil, err
-	}
-
 	return &RosettaTypes.AccountBalanceResponse{
-		BlockIdentifier: blockIdentifier,
+		BlockIdentifier: &RosettaTypes.BlockIdentifier{
+			Index: *block.Index,
+			Hash:  *block.Hash,
+		}, // blockIdentifier,block
 		Balances: []*RosettaTypes.Amount{
 			{
 				Value:    accountInfo.Data.Free.String(),
@@ -223,6 +262,11 @@ func (ec *API) Block(
 		return nil, err
 	}
 
+	transactions, err := ec.getBlockTransactions(blockHash)
+	if err != nil {
+		return nil, err
+	}
+
 	return &RosettaTypes.Block{
 		BlockIdentifier: &RosettaTypes.BlockIdentifier{
 			Index: *blockIdentifier.Index,
@@ -230,8 +274,8 @@ func (ec *API) Block(
 		},
 		ParentBlockIdentifier: parentBlockIdentifier,
 		Timestamp:             timestamp,
-		Transactions:          []*RosettaTypes.Transaction{}, // TODO:
-		Metadata:              nil,                           // TODO:
+		Transactions:          transactions, // TODO: []*RosettaTypes.Transaction{}
+		Metadata:              nil,          // TODO:
 	}, nil
 }
 
