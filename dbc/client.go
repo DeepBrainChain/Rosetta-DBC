@@ -149,6 +149,17 @@ func (ec *API) getBlockTimestamp(blockHeight uint64) (int64, error) {
 	return timestamp.UnixMilli(), nil
 }
 
+// TODO: 通过筛选事件，获取Amount的变化量
+func (ec *API) getOperationAmountFromEvent(opsID string) string {
+	switch opsID {
+	case "balances.transfer":
+	case "balances.transferkeepalive":
+		return "0" // return balance change
+	// case ""
+	// ...
+	}
+}
+
 // TODO: add get block transaction
 func (ec *API) getBlockTransactions(blockHash gsTypes.Hash) ([]*RosettaTypes.Transaction, error) {
 
@@ -158,11 +169,35 @@ func (ec *API) getBlockTransactions(blockHash gsTypes.Hash) ([]*RosettaTypes.Tra
 	}
 	extrinsics := block.Block.Extrinsics
 	fmt.Printf("Total extrinsics: %v\n", len(block.Block.Extrinsics))
-	if len(block.Block.Extrinsics) > 0 {
-		fmt.Printf("%v\n", extrinsics)
+
+	// TODO: Ignore timestamp
+    // if (extrinsicMethod === 'timestamp.set') {
+    //   return;
+    // }_
+	
+	var out []*RosettaTypes.Transaction
+	for aExtrinsic := range extrinsics {
+		out = append(out, &RosettaTypes.Transaction{
+			TransactionIdentifier: &RosettaTypes.TransactionIdentifier{blockHash.Hex()},
+			Operations: []*RosettaTypes.Operation{
+				{
+					OperationIdentifier: &RosettaTypes.OperationIdentifier{Index: 0},
+					Type:                CallOpType,
+					Account:             &RosettaTypes.AccountIdentifier{Address: ""}, // TODO: From
+					Amount:              &RosettaTypes.Amount{Value: "0"},             // TODO:
+
+				},
+				{
+					OperationIdentifier: &RosettaTypes.OperationIdentifier{Index: 0},
+					Type:                CallOpType,
+					Account:             &RosettaTypes.AccountIdentifier{Address: ""}, // TODO: To
+					Amount:              &RosettaTypes.Amount{Value: "0"},             // TODO:
+				}
+			},
+		})
 	}
 
-	return nil, nil
+	return out, nil
 }
 
 func (ec *API) Balance(
@@ -221,7 +256,7 @@ func (ec *API) Balance(
 		BlockIdentifier: &RosettaTypes.BlockIdentifier{
 			Index: *block.Index,
 			Hash:  *block.Hash,
-		}, // blockIdentifier,block
+		},
 		Balances: []*RosettaTypes.Amount{
 			{
 				Value:    accountInfo.Data.Free.String(),
